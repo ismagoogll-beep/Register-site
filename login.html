@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в личный кабинет</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-color: #1f2937;
+            --border-color: #d1d5db;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+
+        .auth-container {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .auth-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        /* Кнопка показать/скрыть пароль */
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 2.3rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .forgot-link, .register-link {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .forgot-link:hover, .register-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Юридическая плашка 152-ФЗ */
+        .law-notice {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .law-notice a {
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="auth-header">
+        <h1>Войти в аккаунт</h1>
+    </div>
+
+    <form action="/login-endpoint" method="POST">
+        <!-- Поле Логина/Email -->
+        <div class="form-group">
+            <label for="username">Email или телефон</label>
+            <input type="text" id="username" name="username" class="form-control" autocomplete="username" placeholder="example@mail.ru" required>
+        </div>
+
+        <!-- Поле Пароля -->
+        <div class="form-group">
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name="password" class="form-control" autocomplete="current-password" placeholder="••••••••" required>
+            <button type="button" class="password-toggle" id="togglePassword">Показать</button>
+        </div>
+
+        <!-- Доп. действия (Запомнить / Забыли пароль) -->
+        <div class="form-actions">
+            <label class="remember-me">
+                <input type="checkbox" name="remember"> Запомнить меня
+            </label>
+            <a href="/forgot-password" class="forgot-link">Забыли пароль?</a>
+        </div>
+
+        <!-- Кнопка Войти -->
+        <button type="submit" class="btn-submit">Войти</button>
+    </form>
+
+    <div class="auth-footer">
+        Нет аккаунта? <a href="Registr-user.html" class="register-link">Зарегистрироваться</a>
+    </div>
+
+    <!-- Соответствие 152-ФЗ РФ -->
+    <div class="law-notice">
+        Нажимая «Войти», вы соглашаетесь с <a href="/privacy-policy" target="_blank">Политикой конфиденциальности</a> и даете согласие на обработку персональных данных.
+    </div>
+</div>
+
+<script>
+    // Простой скрипт для переключения видимости пароля
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Показать' : 'Скрыть';
+    });
+</script>
+
+</body>
+</html>
